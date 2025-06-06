@@ -1,0 +1,14 @@
+# Bytecode do Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Ambiente virtual (caso você crie futuramente)
+venv/
+.env/
+
+# Arquivos do VSCode
+.vscode/
+
+# Arquivos de sistema (macOS, etc.)
+.DS_Store
