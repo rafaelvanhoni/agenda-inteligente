@@ -1,6 +1,11 @@
 import agenda
 from utils import limpar_tela
 
+# Lista principal onde os compromissos são armazenados em tempo de execução
+compromissos = []
+# Define a ordenação padrão dos compromissos: '1' para data/hora
+ordenacao_compromissos = '1'
+
 def mostrar_menu():
     """
     Exibe o menu principal da Agenda Inteligente.
@@ -10,10 +15,7 @@ def mostrar_menu():
     print("2 - Listar compromissos")
     print("3 - Remover compromissos")
     print("0 - Sair\n")
-    print()
-
-compromissos = []
-ordenacao_compromissos = '1' # '1' representa ordenação por data
+    print(f"Total de compromissos: {len(compromissos)}\n")
 
 if __name__ == "__main__":
     while True:
@@ -30,7 +32,7 @@ if __name__ == "__main__":
         elif opcao == "2":
             print("\n>>> Listando compromissos\n")
             print("Para Ordenar, digite:")
-            print("1 - Por Data")
+            print("1 - Por Data e Hora")
             print("2 - Por Nome")
             print("Qualquer outra tecla, mantém a ordem padrão...\n")
             ordenacao_compromissos = input("Escolha uma opção: ")

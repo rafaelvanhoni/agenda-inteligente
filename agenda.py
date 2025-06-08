@@ -1,44 +1,34 @@
-import validador
-from modelo import Compromisso
+from datetime import datetime
+from factory.compromisso_factory import CompromissoFactory
 
 
 def adicionar_compromisso():
     """
-    Cria um novo compromisso a partir dos dados inseridos pelo usuário.
+    Cria um novo compromisso com base nos dados inseridos pelo usuário.
 
     Retorna:
-    - Um objeto Compromisso, se a data for válida.
-    - None, caso a data seja inválida.
-    """    
-
-    nome = input("Nome do compromisso: ")
-    data = input("Data e Hora: ")
-
-    data_convertida = validador.validar_data_hora(data)
-
-    if data_convertida is None:
-        return None
-    
-    return Compromisso(nome, data_convertida)    
+    - Compromisso: objeto criado, caso válido.
+    - None: se a criação for cancelada ou inválida.
+    """
+    return CompromissoFactory.criar()
 
 
 def listar_compromissos(compromissos, ordem):
     """
-    Exibe a lista de compromissos, com opção de ordenação por nome ou data.
+    Exibe a lista de compromissos com ordenação opcional.
 
     Parâmetros:
-    - compromissos: lista de objetos Compromisso
-    - ordem: string indicando a ordenação desejada ('1' para data, '2' para nome).
-    """    
-
+    - compromissos (list): lista de objetos Compromisso.
+    - ordem (str): critério de ordenação ('1' = data/hora, '2' = nome).
+    """
     if not compromissos:
         print("Nenhum compromisso registrado...")
         return
 
     if ordem == '1':
-        compromissos_ordenados = sorted(compromissos, key=lambda compromisso: compromisso.data )
+        compromissos_ordenados = sorted(compromissos, key=lambda c: datetime.combine(c.data, c.hora))
     elif ordem == '2':
-        compromissos_ordenados = sorted(compromissos, key=lambda compromisso: compromisso.nome )
+        compromissos_ordenados = sorted(compromissos, key=lambda c: c.nome)
     else:
         compromissos_ordenados = compromissos
 
@@ -47,13 +37,12 @@ def listar_compromissos(compromissos, ordem):
 
 def remover_compromisso(compromissos, ordem):
     """
-    Remove um compromisso da lista com base no número selecionado pelo usuário.
+    Remove um compromisso da lista com base na posição selecionada pelo usuário.
 
     Parâmetros:
-    - compromissos: lista de objetos Compromisso.
-    - ordem: string com o critério de ordenação para exibição antes da remoção.
-    """    
-
+    - compromissos (list): lista de objetos Compromisso.
+    - ordem (str): critério de ordenação para exibição ('1' ou '2').
+    """
     if not compromissos:
         print("Nenhum compromisso registrado...")
         return
