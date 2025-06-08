@@ -7,5 +7,5 @@ try:
         print(f"✅ Opção Selecionada {opcao}")
     else:
         print("❌ Opção inválida, digite um numero de 1 a 5")
-except:
+except ValueError:
     print("❌ Você digitou um valor inválido. Digite um número inteiro")
