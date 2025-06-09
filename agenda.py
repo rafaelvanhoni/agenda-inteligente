@@ -58,3 +58,50 @@ def remover_compromisso(compromissos, ordem):
         print(f"Compromisso removido com sucesso:\n{removido}")
     except ValueError:
         print("Favor informar um número válido")
+
+def alterar_compromisso(compromissos, ordem):
+    """
+    Permite alterar os dados de um compromisso selecionado.
+
+    Parâmetros:
+    - compromissos (list): lista de objetos Compromisso.
+    - ordem (str): critério de ordenação para exibição ('1' ou '2').
+    """    
+    if not compromissos:
+        print("Nenhum compromisso registrado...")
+        return
+    
+    listar_compromissos(compromissos, ordem)
+    try:
+        escolha = int(input("Digite o número do compromisso que deseja alterar:"))
+        if not(1 <= escolha <= len(compromissos)):
+            print(f"Não existe compromisso com o índice {escolha}")
+            return
+
+        CompromissoFactory.editar(compromissos[escolha - 1])
+        print(f"Compromisso alterado com sucesso:\n")
+    except ValueError:
+        print("Favor informar um número válido")
+        
+def concluir_compromisso(compromissos, ordem):
+    """
+    Marca um compromisso como concluído.
+
+    Parâmetros:
+    - compromissos (list): lista de objetos Compromisso.
+    - ordem (str): critério de ordenação para exibição ('1' ou '2').
+    """
+    if not compromissos:
+        print("Nenhum compromisso registrado...")
+        return
+
+    listar_compromissos(compromissos, ordem)
+    try:
+        escolha = int(input("Digite o número do compromisso que deseja marcar como concluído:"))
+        if not (1 <= escolha <= len(compromissos)):
+            print(f"Não existe compromisso com o índice {escolha}")
+            return
+
+        CompromissoFactory.concluir(compromissos[escolha - 1])
+    except ValueError:
+        print("Favor informar um número válido")

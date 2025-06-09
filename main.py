@@ -13,7 +13,9 @@ def mostrar_menu():
     print("===== AGENDA INTELIGENTE =====\n")
     print("1 - Adicionar compromisso")
     print("2 - Listar compromissos")
-    print("3 - Remover compromissos")
+    print("3 - Remover compromisso")
+    print("4 - Alterar compromisso")
+    print("5 - Concluir compromisso")
     print("0 - Sair\n")
     print(f"Total de compromissos: {len(compromissos)}\n")
 
@@ -39,6 +41,9 @@ if __name__ == "__main__":
             agenda.listar_compromissos(compromissos, ordenacao_compromissos)
         elif opcao == "3":
             agenda.remover_compromisso(compromissos, ordenacao_compromissos)
+        elif opcao == "4":
+            print("\n>>> Alterando compromisso\n")
+            agenda.alterar_compromisso(compromissos, ordenacao_compromissos)
         elif opcao == "0":
             print("\n>>> Encerrando programa\n")
             break
