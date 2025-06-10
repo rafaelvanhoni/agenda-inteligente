@@ -3,35 +3,48 @@
 ![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python)
 ![VS Code](https://img.shields.io/badge/Editor-VSCode-blue?logo=visualstudiocode)
 
-Projeto em Python para gerenciamento de compromissos, desenvolvido com fins educacionais. Permite adicionar, listar (com ordenação) e remover compromissos diretamente pelo terminal.
+Projeto em Python para gerenciamento de compromissos, desenvolvido com fins educacionais. Permite adicionar, listar (com ordenação), remover, alterar e concluir compromissos diretamente pelo terminal.
 
 ## 📦 Estrutura do Projeto
 
 ```
 agenda_inteligente/
-├── main.py                     # Programa principal com menu de navegação
-├── agenda.py                   # Funções para adicionar, listar e remover compromissos
-├── factory/                    # Camada de criação de objetos
-│   └── compromisso_factory.py  # Fábrica de Compromissos
-├── model/                      # Modelos de dados (OOP)
-│   └── compromisso.py          # Classe Compromisso (entidade principal)
-├── validador.py                # Funções de validação (datas, textos, booleanos)
-├── utils.py                    # Função utilitária para limpar a tela
-├── teste.py                    # Arquivo auxiliar para testes manuais
-├── .gitignore                  # Arquivos e pastas ignoradas pelo Git
-└── README.md                   # Este arquivo
+├── app/
+│   ├── main.py                          # Programa principal com menu de navegação
+│   ├── controllers/
+│   │   └── agenda_controller.py         # Funções de controle de compromissos
+│   ├── core/
+│   │   └── models/
+│   │       └── compromisso.py           # Classe Compromisso (entidade principal)
+│   ├── factory/
+│   │   └── compromisso_factory.py       # Fábrica de Compromissos
+│   ├── utils/
+│   │   └── limpar_tela.py               # Função utilitária para limpar a tela
+│   └── validators/
+│       └── validador.py                 # Funções de validação (datas, textos, booleanos)
+├── tests/
+│   └── app/
+│       └── validators/
+│           └── test_validador.py       # Testes automatizados com pytest
+├── rascunho/                            # Arquivos auxiliares e experimentações
+├── .gitignore                           # Arquivos e pastas ignoradas pelo Git
+├── CHANGELOG.md                         # Registro de alterações
+└── README.md                            # Este arquivo
 ```
 
 ## ⚙️ Funcionalidades
 
 - ✅ Adicionar novos compromissos com data e hora
-- ✅ Validar campos obrigatórios, datas e horas
+- ✅ Validar campos obrigatórios, datas, horas e booleanos
 - ✅ Listar compromissos ordenados por:
   - Data e Hora
   - Nome
   - Ordem de inclusão
 - ✅ Remover compromissos com confirmação e validação
-- ✅ Organização do código com Orientação a Objetos e camada de fábrica
+- ✅ Alterar dados de compromissos já existentes
+- ✅ Marcar compromissos como concluídos, com data e hora manual ou automática
+- ✅ Organização do código com Clean Architecture (camadas separadas)
+- ✅ Testes automatizados com `pytest`
 
 ## 🚀 Como Executar
 
@@ -42,27 +55,27 @@ git clone https://github.com/rafaelvanhoni/agenda-inteligente.git
 cd agenda-inteligente
 ```
 
-2. Execute o programa:
+2. Execute o programa com o módulo principal:
 
 ```bash
-python main.py
+python -m app.main
 ```
 
-> **Requisitos**: Python 3.10+ instalado no seu sistema
+> **Requisitos**: Python 3.10+ e terminal compatível (Unix/Linux/Mac ou Windows)
 
 ## 📝 Observações
 
-- Este projeto está sendo desenvolvido passo a passo como parte dos estudos em Python.
-- O código é comentado para facilitar o aprendizado e futuras melhorias.
-- Sinta-se à vontade para dar sugestões, abrir issues ou fazer um fork!
+- Este projeto está sendo desenvolvido passo a passo como parte dos estudos em Python e boas práticas de arquitetura.
+- O código é documentado com `docstrings` e comentários para facilitar o aprendizado e manutenção.
+- Testes com `pytest` foram iniciados e continuarão sendo expandidos.
+- O VS Code está configurado para ocultar arquivos auxiliares como `__init__.py` e `__pycache__` da visualização.
 
 ## 📅 Próximas melhorias (to-do)
 
-- [ ] Alterar compromissos existentes
-- [ ] Marcar como concluído com data e hora manual ou automática
-- [ ] Persistência de dados (salvar e carregar compromissos)
-- [ ] Testes automatizados (com `unittest` ou `pytest`)
-- [ ] Interface gráfica (versão futura)
+- [ ] Separar responsabilidades em `services` para seguir o padrão Clean Architecture
+- [ ] Aumentar a cobertura de testes automatizados
+- [ ] Persistência de dados (salvar e carregar compromissos com JSON ou banco de dados)
+- [ ] Interface gráfica (versão futura com `tkinter`, `PyQt` ou `web`)
 
 ---
 

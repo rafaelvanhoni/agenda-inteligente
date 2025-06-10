@@ -1,5 +1,6 @@
-import agenda
-from utils import limpar_tela
+from app.controllers import agenda_controller as agenda
+import app.controllers.agenda_controller
+from app.utils.limpar_tela import limpar_tela
 
 # Lista principal onde os compromissos são armazenados em tempo de execução
 compromissos = []

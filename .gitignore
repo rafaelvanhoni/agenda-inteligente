@@ -12,3 +12,6 @@ venv/
 
 # Arquivos de sistema (macOS, etc.)
 .DS_Store
+
+# Arquivos temporários ou experimentais
+rascunho/

@@ -1,6 +1,6 @@
-from model.compromisso import Compromisso
+from app.core.models.compromisso import Compromisso
 from datetime import datetime
-import validador
+from app.validators import validador
 
 class CompromissoFactory:
     
