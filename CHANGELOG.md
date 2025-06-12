@@ -2,6 +2,22 @@
 
 Todas as alterações notáveis neste projeto serão documentadas aqui, seguindo o padrão [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+## [v0.9.3] - 2025-06-11
+
+### Adicionado
+- Método `__str__()` completo na classe `Compromisso`, exibindo todos os campos com formatação legível, incluindo data e hora de conclusão.
+- Método `resumo()` na classe `Compromisso`, com exibição compacta e formatada para listagens.
+- `docstrings` detalhadas para todos os métodos da classe `Compromisso`.
+- Inclusão da opção **5 – Concluir compromisso** no menu principal (`main.py`), chamando a função de conclusão implementada no controller.
+
+### Alterado
+- Melhoria na forma de exibição do `resumo()`, limitando o nome a 20 caracteres e exibindo campos booleanos como "Sim"/"Não".
+- Atualização nos testes automatizados do módulo `validador.py` com cobertura completa para `validar_data`, `validar_hora`, `validar_data_hora`, `validar_bool`, `validar_obrigatorio` e `validar_tamanho`.
+
+### Corrigido
+- Correção na exibição dos campos de data e hora de conclusão no método `__str__()`, que antes estavam ausentes ou com valores incorretos.
+- Correção na chamada incorreta do campo `self.importante` no `resumo()` (duplicado no lugar de `concluido`).
+
 ## [v0.9.2] - 2025-06-10
 
 ### Adicionado

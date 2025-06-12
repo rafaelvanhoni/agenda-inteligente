@@ -14,7 +14,7 @@ def validar_data(data) -> date | None:
         if not data.strip():
             return None
         return datetime.strptime(data, "%d/%m/%Y").date()
-    except ValueError as e:
+    except (ValueError, AttributeError) as e:
         print(f"Valor inválido: '{e}'.\nUtilize a formatação 'dd/mm/yyyy'")
         return None
 
@@ -32,7 +32,7 @@ def validar_hora(hora) -> time | None:
         if not hora.strip():
             return None
         return datetime.strptime(hora, "%H:%M").time()
-    except ValueError as e:
+    except (ValueError, AttributeError) as e:
         print(f"Valor inválido: '{e}'.\nUtilize a formatação 'hh:mm'")
         return None
 
@@ -47,8 +47,11 @@ def validar_data_hora(data_hora) -> datetime | None:
     - datetime se válido, None caso contrário
     """
     try:
+        if not data_hora.strip():
+            return None
+        
         return datetime.strptime(data_hora, "%d/%m/%Y %H:%M")
-    except ValueError as e:
+    except (ValueError, AttributeError) as e:
         print(f"Valor inválido: '{e}'.\nUtilize a formatação 'dd/mm/yyyy hh:mm'")
         return None
 
@@ -66,16 +69,20 @@ def validar_bool(resposta: str) -> bool | None:
     - True ou False se for uma entrada válida
     - None se a entrada for inválida
     """    
-    resposta = resposta.strip().lower()
-    if resposta in ['sim', 's', '1', 'true', 't']:
-        return True
-    elif resposta in ['não', 'nao', 'n', '0', 'false', 'f']:
-        return False
-    else:
-        print("Entrada inválida. Informe 'sim' ou 'não'")
+    try:
+        resposta = resposta.strip().lower()
+        if resposta in ['sim', 's', '1', 'true', 't']:
+            return True
+        elif resposta in ['não', 'nao', 'n', '0', 'false', 'f']:
+            return False
+        else:
+            print("Entrada inválida. Informe 'sim' ou 'não'")
+            return None
+    except (ValueError, AttributeError) as e:
+        print(f"Valor inválido: '{e}'.\nInforme 'sim' ou 'não'")
         return None
 
-def validar_obrigatorio(campo: str, nome_campo: str) -> str | None:
+def validar_obrigatorio(campo: str, nome_campo: str = "") -> str | None:
     """
     Verifica se um campo obrigatório foi preenchido.
 
@@ -86,12 +93,16 @@ def validar_obrigatorio(campo: str, nome_campo: str) -> str | None:
     Retorna:
     - O próprio campo, se válido
     - None se estiver vazio
-    """    
-    campo = campo.strip()
-    if not campo:
-        print(f"'{nome_campo}' não pode ser em branco.")
+    """
+    try:
+        campo = campo.strip()
+        if not campo:
+            print(f"'{nome_campo}' não pode ser em branco.")
+            return None
+        return campo
+    except (ValueError, AttributeError, TypeError) as e:
+        print(f"Valor inválido {e}")
         return None
-    return campo
 
 def validar_tamanho(campo: str, nome_campo: str, limite: int) -> bool:
     """
@@ -105,8 +116,16 @@ def validar_tamanho(campo: str, nome_campo: str, limite: int) -> bool:
     Retorna:
     - True se o tamanho for válido
     - False se exceder o limite
-    """    
-    if len(campo) > limite:
-        print(f"'{nome_campo}' tem um tamanho máximo de {limite} caracteres.")
-        return False
-    return True
+    """  
+    try:
+        if limite <= 0:
+            print(f"'Limite inválido: {limite} caracteres.")
+            return False
+
+        if len(campo) > limite:
+            print(f"'{nome_campo}' tem um tamanho máximo de {limite} caracteres.")
+            return False
+        return True
+    except (ValueError, AttributeError, TypeError) as e:
+        print(f"Valor inválido {e}")
+        return False        

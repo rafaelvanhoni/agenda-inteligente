@@ -41,6 +41,58 @@ class Compromisso:
 
     def __str__(self):
         """
-        Retorna uma representação legível do compromisso.
-        """        
-        return f"{self.nome} em {self.data.strftime('%d/%m/%Y')} às {self.hora.strftime('%HH:%MM')}"
+        Retorna uma representação completa e formatada do compromisso.
+
+        A saída inclui:
+        - Nome
+        - Descrição
+        - Local
+        - Data e hora do compromisso
+        - Indicação de importância ("Sim"/"Não")
+        - Indicação de conclusão ("Sim"/"Não")
+        - Data e hora de conclusão (se houver)
+
+        Retorna:
+        - str: uma descrição detalhada e legível do compromisso
+        """
+        data_str = self.data.strftime('%d/%m/%Y')
+        hora_str = self.hora.strftime('%H:%M')
+        importante_str = "Sim" if self.importante else "Não"
+        concluido_str = "Sim" if self.concluido else "Não"
+
+        data_conc_str = self.data_conclusao.strftime('%d/%m/%Y') if self.data_conclusao else "-"
+        hora_conc_str = self.hora_conclusao.strftime('%H:%M') if self.hora_conclusao else "-"
+
+        return (
+            f"Nome: {self.nome}\n"
+            f"Descrição: {self.descricao}\n"
+            f"Local: {self.local}\n"
+            f"Data: {data_str}\n"
+            f"Hora: {hora_str}\n"
+            f"Importante: {importante_str}\n"
+            f"Concluído: {concluido_str}\n"
+            f"Data de conclusão: {data_conc_str}\n"
+            f"Hora de conclusão: {hora_conc_str}"
+        )
+    
+    def resumo(self):
+        """
+        Retorna um resumo formatado do compromisso.
+
+        O resumo inclui:
+        - Nome (limitado a 20 caracteres)
+        - Data no formato 'dd/mm/yyyy'
+        - Hora no formato 'HH:MM'
+        - Indicação textual se é importante ("Sim"/"Não")
+        - Indicação textual se está concluído ("Sim"/"Não")
+
+        Retorna:
+        - str: uma linha com os dados resumidos do compromisso
+        """
+        nome_resumido = self.nome[:20]
+        data_str = self.data.strftime('%d/%m/%Y')
+        hora_str = self.hora.strftime('%H:%M')
+        importante_str = "Sim" if self.importante else "Não"
+        concluido_str = "Sim" if self.concluido else "Não"
+        
+        return f"{nome_resumido} em {data_str} às {hora_str} | Importante: {importante_str} | Concluído: {concluido_str}"

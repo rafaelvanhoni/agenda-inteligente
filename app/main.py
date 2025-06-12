@@ -1,5 +1,4 @@
 from app.controllers import agenda_controller as agenda
-import app.controllers.agenda_controller
 from app.utils.limpar_tela import limpar_tela
 
 # Lista principal onde os compromissos são armazenados em tempo de execução
@@ -45,6 +44,9 @@ if __name__ == "__main__":
         elif opcao == "4":
             print("\n>>> Alterando compromisso\n")
             agenda.alterar_compromisso(compromissos, ordenacao_compromissos)
+        elif opcao == "5":
+            print("\n>>> Concluíndo Compromisso\n")
+            agenda.concluir_compromisso(compromissos, ordenacao_compromissos)
         elif opcao == "0":
             print("\n>>> Encerrando programa\n")
             break

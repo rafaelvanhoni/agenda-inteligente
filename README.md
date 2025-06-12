@@ -43,8 +43,9 @@ agenda_inteligente/
 - ✅ Remover compromissos com confirmação e validação
 - ✅ Alterar dados de compromissos já existentes
 - ✅ Marcar compromissos como concluídos, com data e hora manual ou automática
+- ✅ Representação completa (`__str__`) e resumida (`resumo`) dos compromissos
 - ✅ Organização do código com Clean Architecture (camadas separadas)
-- ✅ Testes automatizados com `pytest`
+- ✅ Testes automatizados com `pytest` cobrindo todos os validadores
 
 ## 🚀 Como Executar
 
@@ -67,16 +68,18 @@ python -m app.main
 
 - Este projeto está sendo desenvolvido passo a passo como parte dos estudos em Python e boas práticas de arquitetura.
 - O código é documentado com `docstrings` e comentários para facilitar o aprendizado e manutenção.
-- Testes com `pytest` foram iniciados e continuarão sendo expandidos.
+- Testes com `pytest` foram iniciados e continuam sendo expandidos.
 - O VS Code está configurado para ocultar arquivos auxiliares como `__init__.py` e `__pycache__` da visualização.
 
 ## 📅 Próximas melhorias (to-do)
 
 - [ ] Separar responsabilidades em `services` para seguir o padrão Clean Architecture
-- [ ] Aumentar a cobertura de testes automatizados
+- [ ] Aumentar a cobertura de testes automatizados (incluindo controller e factory)
 - [ ] Persistência de dados (salvar e carregar compromissos com JSON ou banco de dados)
-- [ ] Interface gráfica (versão futura com `tkinter`, `PyQt` ou `web`)
+- [ ] Interface gráfica (versão futura com `tkinter`, `PyQt` ou web)
 
 ---
 
 Desenvolvido com 💻, ☕ e [VS Code](https://code.visualstudio.com/) por Rafael Vanhoni
+
+> Versão atual: `v0.9.3`
