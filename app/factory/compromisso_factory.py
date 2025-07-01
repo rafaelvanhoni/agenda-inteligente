@@ -43,11 +43,15 @@ class CompromissoFactory:
         concluido_input = input("Concluído? (S/N): ")
         concluido = validador.validar_bool(concluido_input)
 
-        data_conclusao_input = input("Data Conclusão (dd/mm/yyyy): ")
-        data_conclusao = validador.validar_data(data_conclusao_input)
-        
-        hora_conclusao_input = input("Hora Conclusão (hh:mm): ")
-        hora_conclusao = validador.validar_hora(hora_conclusao_input)
+        if concluido is True:
+            data_conclusao_input = input("Data Conclusão (dd/mm/yyyy): ")
+            data_conclusao = validador.validar_data(data_conclusao_input)
+            
+            hora_conclusao_input = input("Hora Conclusão (hh:mm): ")
+            hora_conclusao = validador.validar_hora(hora_conclusao_input)
+        else:
+            data_conclusao = None
+            hora_conclusao = None
 
         # Se for marcado como 'Concluído', mas o usuário não informar Data e Hora da Conclusão,
         # insere a data e hora atual automaticamente.

@@ -14,4 +14,4 @@ venv/
 .DS_Store
 
 # Arquivos temporários ou experimentais
-rascunho/
+rascunho/.env

@@ -2,6 +2,23 @@
 
 Todas as alterações notáveis neste projeto serão documentadas aqui, seguindo o padrão [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+## [v0.9.4] - 2025-07-01
+
+### Adicionado
+- Função `ordenar_compromissos()` no módulo `agenda_services`, permitindo ordenação por data/hora ou nome.
+- Função `verificar_compromissos()` no `agenda_controller`, com verificação centralizada da lista de compromissos.
+- Docstrings explicativas adicionadas às funções `ordenar_compromissos()` e `verificar_compromissos()`.
+- Docstrings padronizadas com uso de hífens (`-`) em todos os métodos do projeto.
+
+### Alterado
+- Refatoração das funções `listar_compromissos()`, `remover_compromisso()`, `alterar_compromisso()`, `concluir_compromisso()` e `selecionar_compromisso()` para utilizar `verificar_compromissos()`, eliminando duplicações.
+- Padronização do tipo de retorno `-> Compromisso | None` em todos os métodos relevantes.
+- Retorno explícito de `None` adicionado em funções com saídas condicionais, promovendo consistência.
+- Melhoria geral na coesão e legibilidade do código.
+
+### Corrigido
+- Ajustes nas mensagens de erro e validação para manter uniformidade e clareza no terminal.
+
 ## [v0.9.3] - 2025-06-11
 
 ### Adicionado
@@ -36,6 +53,7 @@ Todas as alterações notáveis neste projeto serão documentadas aqui, seguindo
 - Corrigida a resposta inválida ao digitar `'n'` como resposta para campos booleanos.
 
 ## [v0.9.1] - 2025-06-09
+
 ### Adicionado
 - Método `editar()` na `CompromissoFactory` para alteração seletiva de campos com validação.
 - Método `concluir()` na `CompromissoFactory`, com suporte à entrada manual ou automática de data/hora.
@@ -46,6 +64,7 @@ Todas as alterações notáveis neste projeto serão documentadas aqui, seguindo
 - Melhorias gerais na organização do fluxo de entrada de dados do usuário.
 
 ## [v0.9.0] - 2025-06-08
+
 ### Adicionado
 - Funcionalidade de adicionar e listar compromissos com ordenação por nome ou data/hora.
 - Validações reutilizáveis implementadas no módulo `validador.py`.
