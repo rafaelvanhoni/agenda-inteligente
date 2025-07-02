@@ -1,4 +1,5 @@
-from app.factory.compromisso_factory import CompromissoFactory
+from app.factories.compromisso_factory import CompromissoFactory
+from app.services.compromisso_service import criar_compromisso, editar_compromisso, concluir_compromisso
 from app.services.agenda_services import ordenar_compromissos
 from app.core.models.compromisso import Compromisso
 
@@ -10,7 +11,7 @@ def adicionar_compromisso() -> Compromisso | None:
     - Compromisso: objeto criado, caso válido.
     - None: se a criação for cancelada ou inválida.
     """    
-    return CompromissoFactory.criar()
+    return criar_compromisso()
 
 
 def listar_compromissos(compromissos, ordem) -> None:
@@ -72,7 +73,7 @@ def alterar_compromisso(compromissos, ordem) -> Compromisso | None:
     if compromisso is None:
         return None
     
-    CompromissoFactory.editar(compromisso)
+    editar_compromisso(compromisso)
     print(f"Compromisso alterado com sucesso:\n{compromisso}")
     
         
@@ -95,7 +96,7 @@ def concluir_compromisso(compromissos, ordem) -> Compromisso | None:
     if compromisso is None:
         return None
 
-    CompromissoFactory.concluir(compromisso)    
+    concluir_compromisso(compromisso)    
     print(f"Compromisso concluído com sucesso:\n{compromisso}")
 
 def selecionar_compromisso(compromissos, ordem) -> Compromisso | None:

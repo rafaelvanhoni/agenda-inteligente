@@ -2,6 +2,22 @@
 
 Todas as alterações notáveis neste projeto serão documentadas aqui, seguindo o padrão [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+## [v0.9.5] - 2025-07-02
+
+### Alterado
+- Refatoração completa da lógica de negócio:
+  - Criação do módulo `compromisso_service.py` com as funções `criar_compromisso`, `editar_compromisso` e `concluir_compromisso`.
+  - Transferência da lógica de validação e input de dados da factory para o service.
+  - Controller atualizado para utilizar diretamente os métodos do service.
+- `CompromissoFactory` agora atua apenas como instanciador de objetos, conforme o princípio da responsabilidade única (SRP).
+
+### Estrutura
+- Pasta `factory/` renomeada para `factories/`, seguindo o padrão de nomenclatura no plural adotado nas demais camadas.
+- Imports atualizados para refletir a nova estrutura.
+
+### Corrigido
+- Corrigido erro de chamada aos métodos `editar()` e `concluir()` que ainda estavam referenciando a factory após a refatoração.
+
 ## [v0.9.4] - 2025-07-01
 
 ### Adicionado

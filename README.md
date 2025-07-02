@@ -16,7 +16,7 @@ agenda_inteligente/
 │   ├── core/
 │   │   └── models/
 │   │       └── compromisso.py           # Classe Compromisso (entidade principal)
-│   ├── factory/
+│   ├── factories/
 │   │   └── compromisso_factory.py       # Fábrica de Compromissos
 │   ├── services/
 │   │   └── agenda_services.py           # Função de ordenação dos compromissos
@@ -85,4 +85,4 @@ python -m app.main
 
 Desenvolvido com 💻, ☕ e [VS Code](https://code.visualstudio.com/) por Rafael Vanhoni
 
-> Versão atual: `v0.9.4`
+> Versão atual: `v0.9.5`
