@@ -2,6 +2,23 @@
 
 Todas as alterações notáveis neste projeto serão documentadas aqui, seguindo o padrão [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+## [v0.9.6] - 2025-07-02
+
+### Adicionado
+- Testes automatizados completos para o módulo `compromisso_service.py`, abrangendo:
+  - Criação de compromissos válidos, inválidos e concluídos (com data/hora manual ou automática).
+  - Edição de compromissos com alteração parcial ou total dos campos.
+  - Conclusão de compromissos via função dedicada com simulação de input.
+- Utilização de `monkeypatch` e `capsys` em todos os testes para simulação de entrada (`input`) e verificação de mensagens no terminal.
+- Docstrings descritivas em todos os métodos de teste, seguindo a mesma organização temática dos validadores.
+
+### Estrutura
+- Arquivo `test_compromisso_service.py` organizado por classes temáticas: `TestCriarCompromisso`, `TestEditarCompromisso` e `TestConcluir`.
+- Cobertura robusta com cenários variados de sucesso e falha para cada funcionalidade testada.
+
+### Corrigido
+- Ajustes nas mensagens de erro para casos de data/hora de conclusão inválidas, garantindo alinhamento entre comportamento da aplicação e testes automatizados.
+
 ## [v0.9.5] - 2025-07-02
 
 ### Alterado

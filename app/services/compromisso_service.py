@@ -5,12 +5,16 @@ from datetime import datetime
 
 def criar_compromisso() -> Compromisso | None:
     """
-    Coleta e valida os dados de entrada do usuário, e delega a criação do compromisso à factory.
-    
+    Coleta os dados do usuário, valida cada campo e cria um novo objeto Compromisso.
+
+    Solicita informações como nome, descrição, data, hora, local, importância e conclusão.
+    Se o compromisso estiver concluído, também coleta (ou gera) data e hora de conclusão.
+    Utiliza a CompromissoFactory para instanciar o objeto.
+
     Retorna:
-    - Um objeto Compromisso se todos os dados forem válidos.
-    - None se alguma etapa falhar.
-    """        
+    - Compromisso: objeto criado com os dados fornecidos, se válidos.
+    - None: se qualquer validação falhar durante o processo.
+    """     
     nome = validador.validar_obrigatorio(input("Nome: "), "Nome")
     if nome is None or not validador.validar_tamanho(nome, "Nome", 100):
         return None
@@ -40,23 +44,20 @@ def criar_compromisso() -> Compromisso | None:
 
     concluido_input = input("Concluído? (S/N): ")
     concluido = validador.validar_bool(concluido_input)
+    if concluido is None:
+        return None
 
     data_conclusao = None
     hora_conclusao = None
 
     if concluido:
         data_conclusao_input = input("Data Conclusão (dd/mm/yyyy): ")
-        data_conclusao = validador.validar_data(data_conclusao_input)
-        
         hora_conclusao_input = input("Hora Conclusão (hh:mm): ")
-        hora_conclusao = validador.validar_hora(hora_conclusao_input)
 
-        # Se for marcado como 'Concluído', mas o usuário não informar Data e Hora da Conclusão,
-        # insere a data e hora atual automaticamente.
-        if data_conclusao is None:
-            agora = datetime.now()
-            data_conclusao = agora.date()
-            hora_conclusao = agora.time().replace(second=0, microsecond=0)
+        validado, data_conclusao, hora_conclusao = tratar_conclusao(concluido, data_conclusao_input, hora_conclusao_input)
+        
+        if not validado:
+            return None
 
     return CompromissoFactory.criar(
             nome= nome,
@@ -72,8 +73,17 @@ def criar_compromisso() -> Compromisso | None:
 
 def editar_compromisso(compromisso: Compromisso) -> None:
     """
-    Edita os campos de um objeto Compromisso, permitindo alterações seletivas.
-    Campos deixados em branco permanecem com os valores atuais.
+    Permite ao usuário editar os campos de um compromisso existente.
+
+    Cada campo é opcionalmente alterado, mantendo o valor atual se deixado em branco.
+    Caso o campo 'Concluído?' seja alterado para verdadeiro, é solicitado o preenchimento
+    (ou geração automática) da data e hora de conclusão.
+
+    Parâmetros:
+    - compromisso (Compromisso): objeto que será modificado.
+
+    Retorna:
+    - None: em caso de falha de validação, a edição é cancelada e o objeto permanece inalterado.
     """
     novo_nome = input(f"Nome [{compromisso.nome}]: ").strip()
     if novo_nome:
@@ -119,41 +129,45 @@ def editar_compromisso(compromisso: Compromisso) -> None:
         novo_concluido = validador.validar_bool(concluido_input)
         if novo_concluido is None:
             return None
+
+        data_conclusao_input = input(f"Data Conclusão [{compromisso.data_conclusao}] (dd/mm/yyyy): ").strip()
+        hora_conclusao_input = input(f"Hora Conclusão [{compromisso.hora_conclusao}] (hh:mm): ").strip()
+
+        validado, nova_data_conclusao, nova_hora_conclusao = tratar_conclusao(novo_concluido, data_conclusao_input, hora_conclusao_input)
+        if not validado:
+            return None
+        
         compromisso.concluido = novo_concluido
-    
-    data_conclusao_input = input(f"Data Conclusão [{compromisso.data_conclusao}] (dd/mm/yyyy): ").strip()
-    if data_conclusao_input:
-        nova_data_conclusao = validador.validar_data(data_conclusao_input)
-        if not nova_data_conclusao:
-            return None
         compromisso.data_conclusao = nova_data_conclusao
-    
-    hora_conclusao_input = input(f"Hora Conclusão [{compromisso.hora_conclusao}] (hh:mm): ").strip()
-    if hora_conclusao_input:
-        nova_hora_conclusao = validador.validar_hora(hora_conclusao_input)
-        if not nova_hora_conclusao:
-            return None
         compromisso.hora_conclusao = nova_hora_conclusao
 
 
 def concluir_compromisso(compromisso: Compromisso) -> None:
     """
-    Marca um compromisso como concluído, com data e hora fornecidos ou atuais.
+    Marca um compromisso como concluído, atualizando data e hora de conclusão.
+
+    O usuário escolhe se deseja informar manualmente a data e hora, ou utilizar os valores atuais.
+    A função valida os dados de conclusão antes de atualizar o objeto.
+
+    Parâmetros:
+    - compromisso (Compromisso): objeto a ser atualizado como concluído.
+
+    Retorna:
+    - None: se os dados de entrada forem inválidos.
     """
     print("\n>>> Marcando compromisso como concluído")
 
     usar_data_manual = input("Deseja informar a data e hora da conclusão manualmente? (S/N): ").strip()
     usar_data_manual = validador.validar_bool(usar_data_manual)
-    if usar_data_manual is True:
+    if usar_data_manual:
         data_input = input("Data (dd/mm/aaaa): ")
-        data = validador.validar_data(data_input)
-        if not data:
-            return None
-
         hora_input = input("Hora (hh:mm): ")
-        hora = validador.validar_hora(hora_input)
-        if not hora:
+
+        validado, data, hora = tratar_conclusao(usar_data_manual, data_input, hora_input)        
+        if not validado:
             return None
+    elif usar_data_manual is None:
+        return
     else:
         agora = datetime.now()
         data = agora.date()
@@ -164,3 +178,38 @@ def concluir_compromisso(compromisso: Compromisso) -> None:
     compromisso.hora_conclusao = hora
 
     print("\n✅ Compromisso marcado como concluído")
+
+def tratar_conclusao(concluido: bool, data_input: str, hora_input: str):
+    """
+    Valida os campos de conclusão (data e hora) de um compromisso.
+
+    Se os campos forem deixados em branco e o compromisso estiver concluído,
+    a data/hora atuais são utilizadas. Se apenas um dos campos for preenchido,
+    exibe mensagem de erro e retorna falha.
+
+    Parâmetros:
+    - concluido (bool): indica se o compromisso está concluído.
+    - data_input (str): valor informado pelo usuário para a data de conclusão.
+    - hora_input (str): valor informado pelo usuário para a hora de conclusão.
+
+    Retorna:
+    - Tuple (bool | None, date | None, time | None):
+        - True + data/hora válidas, se os dados forem válidos.
+        - False, None, None: se `concluido` for False.
+        - None, None, None: se os dados forem inconsistentes ou inválidos.
+    """    
+    if not concluido:
+        return False, None, None
+    
+    if not data_input and not hora_input:
+        agora = datetime.now()
+        return True, agora.date(), agora.time().replace(second=0, microsecond=0)
+    
+    if data_input and hora_input:
+        data = validador.validar_data(data_input)
+        hora = validador.validar_hora(hora_input)
+        if data and hora:
+            return True, data, hora
+    
+    print("⚠️  Informe **ambos** os campos de data e hora de conclusão ou deixe os dois em branco.")
+    return None, None, None

@@ -97,7 +97,7 @@ def validar_obrigatorio(campo: str, nome_campo: str = "") -> str | None:
     try:
         campo = campo.strip()
         if not campo:
-            print(f"'{nome_campo}' não pode ser em branco.")
+            print(f"O campo '{nome_campo}' é obrigatório.")
             return None
         return campo
     except (ValueError, AttributeError, TypeError) as e:
@@ -123,7 +123,7 @@ def validar_tamanho(campo: str, nome_campo: str, limite: int) -> bool:
             return False
 
         if len(campo) > limite:
-            print(f"'{nome_campo}' tem um tamanho máximo de {limite} caracteres.")
+            print(f"O campo '{nome_campo}' tem um tamanho máximo de {limite} caracteres.")
             return False
         return True
     except (ValueError, AttributeError, TypeError) as e:

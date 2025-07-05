@@ -19,15 +19,18 @@ agenda_inteligente/
 │   ├── factories/
 │   │   └── compromisso_factory.py       # Fábrica de Compromissos
 │   ├── services/
-│   │   └── agenda_services.py           # Função de ordenação dos compromissos
+│   │   ├── agenda_services.py           # Função de ordenação dos compromissos
+│   │   └── compromisso_service.py       # Lógica de criação, edição e conclusão de compromissos
 │   ├── utils/
 │   │   └── limpar_tela.py               # Função utilitária para limpar a tela
 │   └── validators/
 │       └── validador.py                 # Funções de validação (datas, textos, booleanos)
 ├── tests/
 │   └── app/
+│       ├── services/
+│       │   └── test_compromisso_service.py  # Testes das funções de criação, edição e conclusão
 │       └── validators/
-│           └── test_validador.py       # Testes automatizados com pytest
+│           └── test_validador.py           # Testes de validações de entrada
 ├── rascunho/                            # Arquivos auxiliares e experimentações
 ├── .gitignore                           # Arquivos e pastas ignoradas pelo Git
 ├── CHANGELOG.md                         # Registro de alterações
@@ -49,7 +52,7 @@ agenda_inteligente/
 - ✅ Organização do código com Clean Architecture (camadas separadas)
 - ✅ Separação de responsabilidades com uso de `services` para lógica de negócio
 - ✅ Refatoração do controller com centralização de validações e uso de funções auxiliares
-- ✅ Testes automatizados com `pytest` cobrindo todos os validadores
+- ✅ Testes automatizados com `pytest` cobrindo validadores e serviços
 
 ## 🚀 Como Executar
 
@@ -77,7 +80,7 @@ python -m app.main
 
 ## 📅 Próximas melhorias (to-do)
 
-- [ ] Aumentar a cobertura de testes automatizados (incluindo controller e factory)
+- [ ] Aumentar a cobertura de testes automatizados (controller e integração)
 - [ ] Persistência de dados (salvar e carregar compromissos com JSON ou banco de dados)
 - [ ] Interface gráfica (versão futura com `tkinter`, `PyQt` ou web)
 
@@ -85,4 +88,4 @@ python -m app.main
 
 Desenvolvido com 💻, ☕ e [VS Code](https://code.visualstudio.com/) por Rafael Vanhoni
 
-> Versão atual: `v0.9.5`
+> Versão atual: `v0.9.6`
