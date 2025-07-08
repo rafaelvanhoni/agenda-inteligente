@@ -60,8 +60,8 @@ class Compromisso:
         importante_str = "Sim" if self.importante else "Não"
         concluido_str = "Sim" if self.concluido else "Não"
 
-        data_conc_str = self.data_conclusao.strftime('%d/%m/%Y') if self.data_conclusao else "-"
-        hora_conc_str = self.hora_conclusao.strftime('%H:%M') if self.hora_conclusao else "-"
+        data_conc_str = self.data_conclusao.strftime('%d/%m/%Y') if self.data_conclusao else "-----"
+        hora_conc_str = self.hora_conclusao.strftime('%H:%M') if self.hora_conclusao else "-----"
 
         return (
             f"Nome: {self.nome}\n"

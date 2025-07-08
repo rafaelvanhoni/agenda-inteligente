@@ -1,9 +1,9 @@
-from app.factories.compromisso_factory import CompromissoFactory
-from app.services.compromisso_service import criar_compromisso, editar_compromisso, concluir_compromisso
-from app.services.agenda_services import ordenar_compromissos
-from app.core.models.compromisso import Compromisso
+from app.services import compromisso_service as service
+from app.services import agenda_services as agenda_service
+from app.core.models import compromisso as model
+from app.validators import validador as validator
 
-def adicionar_compromisso() -> Compromisso | None:
+def adicionar_compromisso() -> model.Compromisso | None:
     """
     Cria um novo compromisso com base nos dados inseridos pelo usuário.
 
@@ -11,10 +11,10 @@ def adicionar_compromisso() -> Compromisso | None:
     - Compromisso: objeto criado, caso válido.
     - None: se a criação for cancelada ou inválida.
     """    
-    return criar_compromisso()
+    return service.criar_compromisso()
 
 
-def listar_compromissos(compromissos, ordem) -> None:
+def listar_compromissos(compromissos, ordem) -> bool:
     """
     Exibe a lista de compromissos com ordenação opcional.
 
@@ -23,16 +23,19 @@ def listar_compromissos(compromissos, ordem) -> None:
     - ordem (str): critério de ordenação ('1' = data/hora, '2' = nome).
 
     Retorna:
-    - None
+    - True se houver compromissos e eles forem listados.
+    - False se a lista estiver vazia.
     """
     if not verificar_compromissos(compromissos):
-        return None
+        return False
     
-    compromissos_ordenados = ordenar_compromissos(compromissos, ordem)
+    compromissos_ordenados = agenda_service.ordenar_compromissos(compromissos, ordem)
     for i, c in enumerate(compromissos_ordenados, start=1):
         print(f"{i} - {c.resumo()}")
-    
-def remover_compromisso(compromissos, ordem) -> Compromisso | None:
+
+    return True
+     
+def remover_compromisso(compromissos, ordem) -> model.Compromisso | None:
     """
     Remove um compromisso da lista com base na posição selecionada pelo usuário.
 
@@ -51,10 +54,19 @@ def remover_compromisso(compromissos, ordem) -> Compromisso | None:
     if compromisso is None:
         return None
     
-    compromissos.remove(compromisso)
-    print(f"Compromisso removido com sucesso:\n{compromisso}")
+    confirmacao = input("Tem certeza que deseja remover esse compromisso? [S/N]")
+    if validator.validar_bool(confirmacao) is not True:
+        print("Remoção cancelada pelo usuário.")
+        return None
 
-def alterar_compromisso(compromissos, ordem) -> Compromisso | None:
+    if service.remover_compromisso(compromissos, compromisso):
+        print(f"Compromisso removido com sucesso:\n{compromisso}")
+        return compromisso
+    else:
+        print(f"Erro: o compromisso não foi encontrado na lista")
+        return None
+
+def alterar_compromisso(compromissos, ordem) -> model.Compromisso | None:
     """
     Permite alterar os dados de um compromisso selecionado.
 
@@ -73,11 +85,12 @@ def alterar_compromisso(compromissos, ordem) -> Compromisso | None:
     if compromisso is None:
         return None
     
-    editar_compromisso(compromisso)
+    service.editar_compromisso(compromisso)
+    service.detalhar_compromisso(compromisso, "✅ Compromisso alterado com sucesso:")
     print(f"Compromisso alterado com sucesso:\n{compromisso}")
     
         
-def concluir_compromisso(compromissos, ordem) -> Compromisso | None:
+def concluir_compromisso(compromissos, ordem) -> model.Compromisso | None:
     """
     Marca um compromisso como concluído.
 
@@ -96,10 +109,10 @@ def concluir_compromisso(compromissos, ordem) -> Compromisso | None:
     if compromisso is None:
         return None
 
-    concluir_compromisso(compromisso)    
+    service.concluir_compromisso(compromisso)    
     print(f"Compromisso concluído com sucesso:\n{compromisso}")
 
-def selecionar_compromisso(compromissos, ordem) -> Compromisso | None:
+def selecionar_compromisso(compromissos, ordem) -> model.Compromisso | None:
     """
     Exibe a lista de compromissos ordenada e permite ao usuário escolher um deles.
 
@@ -120,13 +133,20 @@ def selecionar_compromisso(compromissos, ordem) -> Compromisso | None:
             print(f"Índice inválido. Digite um número entre 1 e {len(compromissos)}")
             return None
 
-        compromissos_ordenados = ordenar_compromissos(compromissos, ordem)
+        compromissos_ordenados = agenda_service.ordenar_compromissos(compromissos, ordem)
         return compromissos_ordenados[escolha - 1]
     
     except ValueError:
         print("Entrada inválida. Digite apenas números inteiros.")
         return None
     
+def detalhar_compromisso(compromissos, ordem) -> None:
+    if not verificar_compromissos(compromissos):
+        return None
+    
+    compromisso = selecionar_compromisso(compromissos, ordem)
+    service.detalhar_compromisso(compromisso, "📌 Detalhes do compromisso:")
+        
 def verificar_compromissos(compromissos) -> bool:
     """
     Verifica se a lista de compromissos contém elementos.

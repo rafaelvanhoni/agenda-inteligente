@@ -1,9 +1,9 @@
-from app.core.models.compromisso import Compromisso
+from app.core.models import compromisso as model
 from app.validators import validador
-from app.factories.compromisso_factory import CompromissoFactory
+from app.factories import compromisso_factory as factory
 from datetime import datetime
 
-def criar_compromisso() -> Compromisso | None:
+def criar_compromisso() -> model.Compromisso | None:
     """
     Coleta os dados do usuário, valida cada campo e cria um novo objeto Compromisso.
 
@@ -59,7 +59,7 @@ def criar_compromisso() -> Compromisso | None:
         if not validado:
             return None
 
-    return CompromissoFactory.criar(
+    return factory.CompromissoFactory.criar(
             nome= nome,
             descricao= descricao,
             data= data,
@@ -71,7 +71,7 @@ def criar_compromisso() -> Compromisso | None:
             hora_conclusao= hora_conclusao        
     )
 
-def editar_compromisso(compromisso: Compromisso) -> None:
+def editar_compromisso(compromisso: model.Compromisso) -> None:
     """
     Permite ao usuário editar os campos de um compromisso existente.
 
@@ -141,8 +141,7 @@ def editar_compromisso(compromisso: Compromisso) -> None:
         compromisso.data_conclusao = nova_data_conclusao
         compromisso.hora_conclusao = nova_hora_conclusao
 
-
-def concluir_compromisso(compromisso: Compromisso) -> None:
+def concluir_compromisso(compromisso: model.Compromisso) -> None:
     """
     Marca um compromisso como concluído, atualizando data e hora de conclusão.
 
@@ -213,3 +212,27 @@ def tratar_conclusao(concluido: bool, data_input: str, hora_input: str):
     
     print("⚠️  Informe **ambos** os campos de data e hora de conclusão ou deixe os dois em branco.")
     return None, None, None
+
+def remover_compromisso(compromissos: list[model.Compromisso], compromisso: model.Compromisso) -> bool:
+    """
+    Remove um compromisso da lista, se estiver presente.
+
+    Parâmetros:
+    - compromissos (list): Lista original de compromissos.
+    - compromisso (Compromisso): Compromisso a ser removido.
+
+    Retorna:
+    - True se a remoção foi bem-sucedida.
+    - False se o compromisso não estiver na lista.
+    """
+    if compromisso in compromissos:
+        compromissos.remove(compromisso)
+        return True
+    return False
+
+def detalhar_compromisso(compromisso: model.Compromisso, titulo: str) -> None:
+    if not compromisso:
+        return None
+
+    print(f"\n{titulo}")
+    print(compromisso)

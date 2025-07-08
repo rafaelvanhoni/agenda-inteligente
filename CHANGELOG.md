@@ -2,6 +2,22 @@
 
 Todas as alterações notáveis neste projeto serão documentadas aqui, seguindo o padrão [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+## [v0.9.7] - 2025-07-08
+
+### Refatorado
+- Separação completa da lógica de criação, edição e conclusão de compromissos para a camada `compromisso_service.py`.
+- `agenda_controller.py` agora atua como orquestrador: seleciona, valida e chama os serviços adequados.
+- Lógica de instância isolada na `CompromissoFactory`.
+
+### Melhorias de Interface
+- `main.py` refatorado com uso de dicionário `acoes_menu`, eliminando encadeamentos de `if` e tornando o menu mais limpo e extensível.
+- Função utilitária `executar_com_visualizacao()` criada para reaproveitamento do fluxo padrão de visualização + ação.
+- Exibição do título customizado no detalhamento do compromisso.
+
+### Estrutura
+- Caminho preparado para futura extração da interface CLI para o módulo `ui/`.
+- Organização e clareza aumentadas para escalar o projeto rumo a uma API REST e frontend Angular.
+
 ## [v0.9.6] - 2025-07-02
 
 ### Adicionado
